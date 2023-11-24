@@ -1,0 +1,75 @@
+body{
+    background: url('/static/image/Spider-Man-ALL.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    margin: 0;
+    color: white;
+    font-family: IBM Plex Mono, monospace;
+    padding: 50px;
+}
+/*texte defilant*/
+h1 {
+    color : red;
+    display: flex;
+    justify-content: center;
+    border: 5px solid;
+    border-color: black;
+   
+}
+
+.typewriter-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.typewriter p {
+    font-size: 25px;
+    font-weight: lighter;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    animation: typing 2.5s steps(24);
+}
+.typewriter p::after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 1px;
+    background: #dadada;
+    right: 0;
+    top: 0;
+    animation: cursor 1s infinite;
+}
+
+@keyframes typing {
+    from {width:0}
+    to {width: 100%;}
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+/*buttonSuivant1*/
+#btnS{
+        background-color: #ff0000;
+        color: #ffffff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: IBM Plex Mono, monospace;
+    }
+
+    #btns:hover {
+        background-color: #cc0000;
+}

@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println("hello")
-	hangman.Test()
+	hangman.Player.Init("level 1")
+	fmt.Println(hangman.Player)
+	hangman.
 }
