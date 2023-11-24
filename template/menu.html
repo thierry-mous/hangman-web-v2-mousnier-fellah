@@ -1,0 +1,99 @@
+{{define "menu"}}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/menu.css">
+</head>
+<body>
+<div></div>
+</body>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/menu.css">
+</head>
+
+<body class="gif">
+    <div class="f-center">
+        <h1 class="title">
+            Welcome to Spider-Society
+        </h1>
+    </div>
+
+    <div class="text">
+        <p>
+            Salut tisseur choisi ton niveau et fonce aider Miles!!!!
+        </p>
+    </div>
+    <form class="form" action="/choice" method="post">
+        <div class="ligne">
+            <div class="enca">
+                <input name="level" type="radio" value="1" id="level1">
+                <label for="level1"> Niveau 1:<br>
+                    -Pour les tisseurs débutants <br>
+                    - Trouvez les Spider-Man les plus connus
+                </label>
+            </div>
+            <div class="enca">
+                <input name="level" type="radio" value="2" id="level2">
+                <label for="level2"> Niveau 2:<br>
+                    - Pour les Tisseurs Émergents <br>
+                    - Des Spider-man connus mais pas de tout les univers
+                </label>
+            </div>
+        </div>
+        <div class="ligne">
+            <div class="enca">
+                <input name="level" type="radio" value="3" id="level3">
+                <label for="level3"> Niveau 3:<br>
+                    - L'araignée sympa du quartier <br>
+                    - La ca commence a être dur mais pas pour un Spider-Man comme vous
+                </label>
+            </div>
+            <div class="enca">
+                <input name="level" type="radio" value="4" id="level4">
+                <label for="level4"> Niveau 4:<br>
+                    - Spectaculaire Spider-man<br>
+                    - La même Peter aura du mal a les reconnaitre
+                </label>
+            </div>
+        </div>
+        <div class="ligne">
+            <div class="enca">
+                <input name="level" type="radio" value="5" id="level5">
+                <label for="level5"> Niveau 5:<br>
+                    - The Amazing Spider-Man<br>
+                    - Faut avoir un connaissance incroyable la
+                </label>
+            </div>
+            <div class="enca">
+                <input name="level" type="radio" value="6" id="level6">
+                <label for="level6"> Niveau 6:<br>
+                    - Boss de la Spider-Society<br>
+                    - Pour ce niveau faut vraiment être Miguel
+                </label>
+            </div>
+        </div>
+        <div class="ligne">
+            <div class="enca">
+                <input name="level" type="radio" value="7" id="levelBonus">
+                <label for="levelBonus"> Niveau Bonus:<br>
+                    - Pour les Spider-Man qui aiment le defis<br>
+                    - Si vous trouvez faut vraiment aller dans votre univers la
+                </label>
+            </div>
+        </div>
+        <div class="bouton">
+            <input type="submit" value="Commencer a jouer">
+        </div>
+    </form>
+</body>
+</html>
+{{end}}
