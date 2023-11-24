@@ -1,18 +1,6 @@
 {{define "menu"}}
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Menu</title>
-    <meta name="viewport" content="width=device-width , initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/menu.css">
-</head>
-<body>
-<div></div>
-</body>
-
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -32,7 +20,11 @@
             Salut tisseur choisi ton niveau et fonce aider Miles!!!!
         </p>
     </div>
-    <form class="form" action="/choice" method="post">
+    <form class="form" action="/choice/treatment" method="post">
+        <div>
+            <label for="pseudo">Pseudo :</label>
+            <input type="text" id="pseudo" name="pseudo" required>
+        </div>
         <div class="ligne">
             <div class="enca">
                 <input name="level" type="radio" value="1" id="level1">

@@ -3,10 +3,79 @@ package main
 import (
 	"fmt"
 	"hangmanweb/hangman"
+	"html/template"
+	"net/http"
+	"os"
 )
 
+type PageInit struct {
+	Username string
+	lvl      string
+}
+
+type Game struct {
+	State        string
+	Letters      []string
+	FoundLetters []string
+	UsedLetters  []string
+	TurnsLeft    int
+}
+
+var logs PageInit
+var MesUser string
+
 func main() {
-	hangman.Player.Init("level 1")
-	fmt.Println(hangman.Player)
-	hangman.
+	temp, err := template.ParseGlob("./template/*.html")
+	if err != nil {
+		fmt.Printf(fmt.Sprintf("ERREUR => %s", err.Error()))
+		return
+	}
+
+	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
+		temp.ExecuteTemplate(w, "home", nil)
+	})
+
+	http.HandleFunc("/choice", func(w http.ResponseWriter, r *http.Request) {
+		temp.ExecuteTemplate(w, "menu", nil)
+
+	})
+
+	http.HandleFunc("/choice/treatment", func(w http.ResponseWriter, r *http.Request) {
+		logs = PageInit{r.FormValue("pseudo"), r.FormValue("level")}
+		fmt.Println(logs)
+		hangman.Start(logs.lvl)
+		http.Redirect(w, r, "/game", 301)
+	})
+	type PageGame struct {
+		Hiddenword []string
+		Listletter []string
+		Leftpv     int
+		MesUser    string
+	}
+
+	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
+
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser}
+		if hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word) || hangman.Player.TurnsLeft <= 0 {
+			http.Redirect(w, r, "/end", 301)
+		}
+		temp.ExecuteTemplate(w, "level", data)
+	})
+
+	http.HandleFunc("/game/treatment", func(w http.ResponseWriter, r *http.Request) {
+		value := r.FormValue("value")
+		fmt.Println("valeur inveau : ", value)
+		MesUser = hangman.Player.CheckInput(value)
+		http.Redirect(w, r, "/game", 301)
+	})
+
+	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("end"))
+	})
+
+	rootDoc, _ := os.Getwd()
+	fileserver := http.FileServer(http.Dir(rootDoc + "/asset"))
+	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
+	//Init serv
+	http.ListenAndServe("localhost:8080", nil)
 }

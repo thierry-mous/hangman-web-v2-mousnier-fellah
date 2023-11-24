@@ -1,28 +1,40 @@
 package hangman
 
-func (g *HangmanGame) CheckInput(value string) string {
+import (
+	"strings"
+)
+
+func (g *Game) CheckInput(value string) string {
+	value = strings.ToLower(value)
 	if len(value) != 1 {
-		if g.word == value {
-			for index := range g.word {
-				g.foundLetter[index] = string(g.word[index])
+		if g.Word == value {
+			for index := range g.Word {
+				g.FoundLetters[index] = string(g.Word[index])
 			}
-			return "vous avez trouvez le mot"
+			return "vous avez trouver le mot"
 		} else {
-			g.pv -= 1
-			return " vous avez perdu 1 pv"
+			g.TurnsLeft -= 2
+			return "vous avez perdu deux vies"
 		}
 	} else {
-		IsFind := false
-		for i, v := range g.word {
-			if value == string(v) {
-				IsFind = true
-				g.hiddenWord[i] = string(v)
+
+		for _, letter := range g.UsedLetters {
+			if letter == value {
+				return "vous avez deja indiquer cette lettre"
 			}
 		}
-		if !(IsFind) {
-			g.pv -= 1
-			return "vous avez perdu 1 pv"
+		g.UsedLetters = append(g.UsedLetters, value)
+		IsFind := false
+		for i, v := range g.Word {
+			if value == string(v) {
+				IsFind = true
+				g.FoundLetters[i] = string(v)
+			}
 		}
-		return "vous avez trouvez le mot"
+		if !IsFind {
+			g.TurnsLeft -= 1
+			return "vous avez perdu une vie"
+		}
+		return "vous avez trouver la lettre"
 	}
 }
