@@ -13,7 +13,7 @@ func (g *Game) CheckInput(value string) string {
 			}
 			return "vous avez trouver le mot"
 		} else {
-			g.TurnsLeft -= 2
+			g.TurnsLeft -= 1
 			return "vous avez perdu deux vies"
 		}
 	} else {

@@ -32,10 +32,16 @@ func main() {
 	}
 
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
+		if hangman.Player.InGame {
+			http.Redirect(w, r, "/game", 301)
+		}
 		temp.ExecuteTemplate(w, "home", nil)
 	})
 
 	http.HandleFunc("/choice", func(w http.ResponseWriter, r *http.Request) {
+		if hangman.Player.InGame {
+			http.Redirect(w, r, "/game", 301)
+		}
 		temp.ExecuteTemplate(w, "menu", nil)
 
 	})
@@ -51,12 +57,14 @@ func main() {
 		Listletter []string
 		Leftpv     int
 		MesUser    string
+		IsWin      bool
 	}
 
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
 
-		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser}
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,false}
 		if hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word) || hangman.Player.TurnsLeft <= 0 {
+			hangman.Player.InGame = false
 			http.Redirect(w, r, "/end", 301)
 		}
 		temp.ExecuteTemplate(w, "level", data)
@@ -70,7 +78,11 @@ func main() {
 	})
 
 	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("end"))
+		data:=PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,true}
+		if hangman.Player.InGame {
+			http.Redirect(w, r, "/game", 301)
+		}
+		temp.ExecuteTemplate(w, "end", data)
 	})
 
 	rootDoc, _ := os.Getwd()
