@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>Hangman</title>
     <meta name="viewport" content="width=device-width , initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/game.css">
+    <link rel="stylesheet" href="/static/asset/game.css">
 </head>
 <body>
-<h1>
-    Welcome to Spider-Society
-</h1>
+    <div class="title">
+        <h1>
+          Welcome to Spider-Society
+        </h1>
+    </div>
+
 <header>
     <div class="info">
         <p>{{.Hiddenword}}</p>
@@ -17,9 +20,10 @@
         <p>{{.Leftpv}}</p>
         <p>{{.MesUser}}</p>
     </div>
+       
+    </div>
 </header>
 <body>
-    <h1>Page game</h1>
     <div>
         <img src="/static/image/pendu{{.Leftpv}}.jpg" alt="image de miles pendu" width="500" height="500">
     </div>

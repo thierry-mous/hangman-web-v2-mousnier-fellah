@@ -60,6 +60,8 @@ func main() {
 		IsWin      bool
 	}
 
+	
+
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
 
 		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, false}
@@ -78,20 +80,17 @@ func main() {
 	})
 
 	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
-		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, true}
-		Win := hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word)
-		if Win {
-			temp.ExecuteTemplate(w, "end", data)
-		} else {
-			temp.ExecuteTemplate(w, "end", nil)
+		data:=PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,true}
+		if hangman.Player.InGame {
+			http.Redirect(w, r, "/game", 301)
 		}
-		http.Redirect(w, r, "/game", 301)
-
+		temp.ExecuteTemplate(w, "end", data)
 	})
+
 
 	rootDoc, _ := os.Getwd()
 	fileserver := http.FileServer(http.Dir(rootDoc + "/asset"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	//Init serv
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe("localhost:6969", nil)
 }
