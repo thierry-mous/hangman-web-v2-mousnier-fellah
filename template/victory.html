@@ -1,4 +1,5 @@
-{{define "victory"}}
+{{define "end"}}
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +9,17 @@
 </head>
 <body>
 <div class="typewriter-container">
+    {{if .IsWin}}
     <div class="typewriter">
         <p id="Victoire">VICTOIRE</p>
         <p>LETS'GO, la toile l'emporte ! <br><br> Grace à l'équipe que tu a formé, les Spiders ont réussi à combattre l'ennemi !   !</p>
     </div>
+    {{else}}
+    <div class="typewriter">
+        <p id="Defaite">DEFAITE</p>
+        <p>Tu n'a pas été à la hauteur <br><br> Essaye encore de formé une équipe de Spiders afin de reussir à combattre l'ennemi !   !</p>
+    </div>
+    {{end}}
 </div>
 </body>
 </html>

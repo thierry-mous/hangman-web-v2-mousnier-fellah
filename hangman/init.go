@@ -16,6 +16,7 @@ type Game struct {
 	UsedLetters  []string
 	Word         string
 	TurnsLeft    int
+	InGame       bool
 }
 
 var Player Game
@@ -38,6 +39,7 @@ func New(turns int, word string) (*Game, error) {
 		UsedLetters:  []string{},
 		TurnsLeft:    turns,
 		Word:         strings.ToLower(word),
+		InGame:       true,
 	}
 
 	return g, nil
@@ -102,7 +104,7 @@ func PrepareFileName(level string) string {
 	}
 }
 
-func Load(filename string) error { //charge le .txt avec les noms de champions
+func Load(filename string) error { //charge le .txt avec les noms de spider
 	f, err := os.Open("./hangman/data/" + filename)
 	if err != nil {
 		return err
@@ -120,7 +122,7 @@ func Load(filename string) error { //charge le .txt avec les noms de champions
 	return nil
 }
 
-func PickWord() string { //prend un nom de champion aléatoire
+func PickWord() string { //prend un nom de spider aléatoire
 	rand.Seed(time.Now().Unix())
 	i := rand.Intn(len(words))
 	return words[i]
@@ -154,7 +156,7 @@ func Start(level string) {
 		os.Exit(1)
 	}
 
-	g, err := New(11, PickWord())
+	g, err := New(5, PickWord())
 	if err != nil {
 		fmt.Printf("Could not create game: %v\n", err)
 		os.Exit(1)
