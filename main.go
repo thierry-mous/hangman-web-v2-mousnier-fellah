@@ -32,16 +32,10 @@ func main() {
 	}
 
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		if hangman.Player.InGame {
-			http.Redirect(w, r, "/game", 301)
-		}
 		temp.ExecuteTemplate(w, "home", nil)
 	})
 
 	http.HandleFunc("/choice", func(w http.ResponseWriter, r *http.Request) {
-		if hangman.Player.InGame {
-			http.Redirect(w, r, "/game", 301)
-		}
 		temp.ExecuteTemplate(w, "menu", nil)
 
 	})
@@ -60,8 +54,6 @@ func main() {
 		IsWin      bool
 	}
 
-	
-
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
 
 		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, false}
@@ -74,23 +66,19 @@ func main() {
 
 	http.HandleFunc("/game/treatment", func(w http.ResponseWriter, r *http.Request) {
 		value := r.FormValue("value")
-		fmt.Println("valeur inveau : ", value)
+		fmt.Println("valeur niveau : ", value)
 		MesUser = hangman.Player.CheckInput(value)
 		http.Redirect(w, r, "/end", 301)
 	})
 
 	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
-		data:=PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,true}
-		if hangman.Player.InGame {
-			http.Redirect(w, r, "/game", 301)
-		}
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, true}
 		temp.ExecuteTemplate(w, "end", data)
 	})
-
 
 	rootDoc, _ := os.Getwd()
 	fileserver := http.FileServer(http.Dir(rootDoc + "/asset"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	//Init serv
-	http.ListenAndServe("localhost:6969", nil)
+	http.ListenAndServe("localhost:8080", nil)
 }
