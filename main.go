@@ -62,7 +62,7 @@ func main() {
 
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
 
-		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,false}
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, false}
 		if hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word) || hangman.Player.TurnsLeft <= 0 {
 			hangman.Player.InGame = false
 			http.Redirect(w, r, "/end", 301)
@@ -74,15 +74,19 @@ func main() {
 		value := r.FormValue("value")
 		fmt.Println("valeur inveau : ", value)
 		MesUser = hangman.Player.CheckInput(value)
-		http.Redirect(w, r, "/game", 301)
+		http.Redirect(w, r, "/end", 301)
 	})
 
 	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
-		data:=PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser,true}
-		if hangman.Player.InGame {
-			http.Redirect(w, r, "/game", 301)
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, true}
+		Win := hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word)
+		if Win {
+			temp.ExecuteTemplate(w, "end", data)
+		} else {
+			temp.ExecuteTemplate(w, "end", nil)
 		}
-		temp.ExecuteTemplate(w, "end", data)
+		http.Redirect(w, r, "/game", 301)
+
 	})
 
 	rootDoc, _ := os.Getwd()
