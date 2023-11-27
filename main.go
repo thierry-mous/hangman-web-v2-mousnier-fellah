@@ -33,11 +33,17 @@ func main() {
 
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(1)
+		if hangman.Player.InGame{
+			http.Redirect(w,r,"end",301)
+		}
 		temp.ExecuteTemplate(w, "home", nil)
 	})
 
 	http.HandleFunc("/choice", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(2)
+		if hangman.Player.InGame{
+			http.Redirect(w,r,"end",301)
+		}
 		temp.ExecuteTemplate(w, "menu", nil)
 
 	})
