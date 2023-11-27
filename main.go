@@ -32,15 +32,18 @@ func main() {
 	}
 
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(1)
 		temp.ExecuteTemplate(w, "home", nil)
 	})
 
 	http.HandleFunc("/choice", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(2)
 		temp.ExecuteTemplate(w, "menu", nil)
 
 	})
 
 	http.HandleFunc("/choice/treatment", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(3)
 		logs = PageInit{r.FormValue("pseudo"), r.FormValue("level")}
 		fmt.Println(logs)
 		hangman.Start(logs.lvl)
@@ -55,7 +58,7 @@ func main() {
 	}
 
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
-
+		fmt.Println(4)
 		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, false}
 		if hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word) || hangman.Player.TurnsLeft <= 0 {
 			hangman.Player.InGame = false
@@ -65,13 +68,20 @@ func main() {
 	})
 
 	http.HandleFunc("/game/treatment", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(5)
 		value := r.FormValue("value")
 		fmt.Println("valeur niveau : ", value)
 		MesUser = hangman.Player.CheckInput(value)
-		http.Redirect(w, r, "/end", 301)
+		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, false}
+		if hangman.HasWon(hangman.Player.FoundLetters, hangman.Player.Word) || hangman.Player.TurnsLeft <= 0 {
+			hangman.Player.InGame = false
+			http.Redirect(w, r, "/end", 301)
+		} 
+		temp.ExecuteTemplate(w, "level", data)
 	})
 
 	http.HandleFunc("/end", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(6)
 		data := PageGame{hangman.Player.FoundLetters, hangman.Player.UsedLetters, hangman.Player.TurnsLeft, MesUser, true}
 		temp.ExecuteTemplate(w, "end", data)
 	})
