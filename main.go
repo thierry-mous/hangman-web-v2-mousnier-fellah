@@ -90,5 +90,5 @@ func main() {
 	fileserver := http.FileServer(http.Dir(rootDoc + "/asset"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	//Init serv
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe("localhost:6969", nil)
 }
